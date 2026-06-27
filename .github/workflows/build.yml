@@ -72,7 +72,7 @@ jobs:
         with:
           name: mapping-${{ github.sha }}
           path: app/build/outputs/mapping/release
-build-debug:
+  build-debug:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
