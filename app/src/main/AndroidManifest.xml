@@ -249,3 +249,8 @@
     </application>
 
 </manifest>
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:android:name="android.permission.INTERNET" />
+    <!-- ... rest of manifest ... -->
+</manifest>
