@@ -1,3 +1,8 @@
+import android.view.GestureDetector
+import android.view.MotionEvent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+
 package eu.kanade.tachiyomi.ui.reader.viewer.pager
 
 import android.annotation.SuppressLint
