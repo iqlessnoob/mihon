@@ -190,20 +190,3 @@ class PagerViewerAdapter(private val viewer: PagerViewer) : ViewPagerAdapter() {
     }
 }
 
-// In the Composable/View displaying the manga page image:
-Modifier.pointerInput(Unit) {
-    detectTapGestures(
-        onLongPress = {
-            // 1. Capture the page view bitmap
-            val bitmap = (imageView.drawable as? BitmapDrawable)?.bitmap
-            if (bitmap != null) {
-                // 2. Call the translator
-                runMangaTranslation(bitmap)
-            }
-        },
-        onTap = {
-            // Dismiss overlays on tap
-            clearTranslationOverlays()
-        }
-    )
-}
