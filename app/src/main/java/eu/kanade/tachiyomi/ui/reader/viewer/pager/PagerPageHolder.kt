@@ -1,3 +1,6 @@
+import eu.kanade.tachiyomi.ui.reader.translation.runMangaTranslation
+import eu.kanade.tachiyomi.ui.reader.translation.clearTranslationOverlays
+
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.graphics.Bitmap
