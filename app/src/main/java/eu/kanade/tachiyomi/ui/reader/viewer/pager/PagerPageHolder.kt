@@ -66,6 +66,51 @@ class PagerPageHolder(
      * Job for loading the page and processing changes to the page's status.
      */
     private var loadJob: Job? = null
+    /**
+     * Detects long-press and tap gestures before child views swallow them.
+     */
+    private val translationGestureDetector = GestureDetector(
+        readerThemedContext,
+        object : GestureDetector.SimpleOnGestureListener() {
+            override fun onLongPress(e: MotionEvent) {
+                val bitmap = capturePageBitmap()
+                if (bitmap != null) {
+                    // This triggers your translator feature
+                    runMangaTranslation(bitmap)
+                }
+            }
+
+            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                // Clears translation overlays on a standard tap
+                clearTranslationOverlays()
+                return true
+            }
+        }
+    )
+
+    /**
+     * Intercepts touch inputs safely without breaking reader zoom/panning utilities.
+     */
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        translationGestureDetector.onTouchEvent(ev)
+        return super.dispatchTouchEvent(ev)
+    }
+
+    /**
+     * Renders a copy of the current view contents into a usable Bitmap.
+     */
+    private fun capturePageBitmap(): Bitmap? {
+        if (width <= 0 || height <= 0) return null
+        return try {
+            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            this.draw(canvas)
+            bitmap
+        } catch (e: Exception) {
+            logcat(LogPriority.ERROR) { "Failed to capture page canvas: ${e.formattedMessage}" }
+            null
+        }
+    }
 
     init {
         loadJob = scope.launch { loadPageAndProcessStatus() }
