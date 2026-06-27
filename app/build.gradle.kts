@@ -347,3 +347,15 @@ androidComponents {
         it.packaging.resources.excludes.add("META-INF/*.version")
     }
 }
+dependencies {
+    // ... existing dependencies ...
+    
+    // Retrofit & Network
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    
+    // Moshi JSON Serialization
+    implementation("com.squareup.moshi:moshi:1.15.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
+}
