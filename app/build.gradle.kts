@@ -81,7 +81,7 @@ android {
             isMinifyEnabled = Config.enableCodeShrink
             isShrinkResources = Config.enableCodeShrink
 
-            signingConfig = debug.signingConfig
+        
 
             isProfileable = true
 
