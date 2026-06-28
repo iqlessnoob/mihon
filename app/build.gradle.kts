@@ -247,7 +247,6 @@ dependencies {
 
     implementation(libs.sqldelight.async)
 
-    implementation("com.github.tumuyan:RealSR-NCNN-Android:1.0.0")
 
     // AndroidX libraries
     implementation(libs.androidx.annotation)
