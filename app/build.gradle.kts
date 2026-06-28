@@ -350,13 +350,14 @@ androidComponents {
         resSource.addGeneratedSourceDirectory(replaceShortcutsPlaceholderTask) { it.outputDir }
     }
 
-    onVariants(selector().withFlavor("default" to "standard")) {
+        onVariants(selector().withFlavor("default" to "standard")) {
         // Only excluding in standard flavor because this breaks
         // Layout Inspector's Compose tree
         it.packaging.resources.excludes.add("META-INF/*.version")
     }
 }
-dependencies {
+
+dependencies {    
     // Retrofit for MangaTranslator
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
@@ -364,6 +365,4 @@ dependencies {
     // Moshi JSON Serialization
     implementation("com.squareup.moshi:moshi:1.15.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
-}
-
 }
