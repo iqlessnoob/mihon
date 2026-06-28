@@ -3,7 +3,7 @@ package eu.kanade.tachiyomi.data.download
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import com.tumuyan.realsr.RealCugan // Class name exposed by the RealCugan-NCNN dependency
+import com.tumuyan.Realcugan.RealCugan // Class name exposed by the RealCugan-NCNN dependency
 import java.io.File
 import java.io.FileOutputStream
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +11,7 @@ import kotlinx.coroutines.withContext
 
 object RealCuganUpscaler {
     private var isInitialized = false
-    private val realSR = RealCugan()
+    private val Realcugan = RealCugan()
 
     // Initialize RealCUGAN with model assets 
     private suspend fun initialize(context: Context) = withContext(Dispatchers.IO) {
