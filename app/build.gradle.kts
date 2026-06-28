@@ -83,8 +83,9 @@ android {
             isPseudoLocalesEnabled = true
         }
         val release = getByName("release") {
-            isMinifyEnabled = true
-            isShrinkResources = true
+    isMinifyEnabled = false
+    isShrinkResources = false
+
 
 
         
