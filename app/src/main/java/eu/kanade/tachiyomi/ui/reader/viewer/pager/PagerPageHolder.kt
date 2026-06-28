@@ -89,10 +89,11 @@ class PagerPageHolder(
 
 
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                // Calls the clear function from the correct TranslationOverlay file
-                TranslationOverlay.clearTranslationOverlays()
+                // CHANGE THIS LINE to use MangaTranslator:
+                MangaTranslator.clearTranslationOverlays()
                 return true
             }
+
         }
     )
 
