@@ -324,7 +324,8 @@ class Downloader(
      *
      * @param download the chapter to be downloaded.
      */
-    private suspend fun downloadChapter(download: Download) {
+    private suspend fun downloadChapter(download: Download, withUpscale: Boolean = false) {
+
         val mangaDir = provider.getMangaDir(download.manga.title, download.source).getOrElse { e ->
             download.status = Download.State.ERROR
             notifier.onError(e.message, download.chapter.name, download.manga.title, download.manga.id)
@@ -385,7 +386,8 @@ class Downloader(
                         }
                     }
 
-                    withIOContext { getOrDownloadImage(page, download, tmpDir) }
+                    withIOContext { getOrDownloadImage(page, download, tmpDir, withUpscale) }
+
                     emit(page)
                 }
                     .flowOn(Dispatchers.IO)
@@ -436,7 +438,8 @@ class Downloader(
      * @param download the download of the page.
      * @param tmpDir the temporary directory of the download.
      */
-    private suspend fun getOrDownloadImage(page: Page, download: Download, tmpDir: UniFile) {
+    private suspend fun getOrDownloadImage(page: Page, download: Download, tmpDir: UniFile, withUpscale: Boolean = false) {
+
         // If the image URL is empty, do nothing
         if (page.imageUrl == null) {
             return
@@ -464,21 +467,34 @@ class Downloader(
                 else -> downloadImage(page, download.source, tmpDir, filename)
             }
 
-            // When the page is ready, set page path, progress (just in case) and status
+                        // When the page is ready, set page path, progress (just in case) and status
             splitTallImageIfNeeded(page, tmpDir)
-             // AI Upscaling
-try {
-    val imageFile = tmpDir.listFiles()?.firstOrNull {
-        it.name!!.startsWith(filename)
-    }
-    if (imageFile != null) {
-        val javaFile = File(imageFile.uri.path!!)
-        RealCuganUpscaler.upscaleImageFile(context, javaFile)
-    }
-} catch (e: Exception) {
-    logcat(LogPriority.ERROR, e) { "Upscaling failed: ${e.message}" }
-}
+
+            // --- NEW MANGA PAGE UPSCALER BLOCK ---
+            if (withUpscale) {
+                try {
+                    val imageFile = tmpDir.listFiles()?.firstOrNull { it.name.orEmpty().startsWith(filename) }
+                    if (imageFile != null) {
+                        val javaFile = File(imageFile.uri?.path ?: "")
+                        if (javaFile.exists()) {
+                            val tempFile = File(javaFile.parent, "${javaFile.name}.tmp")
+                            MangaPageUpscaler.init(context)
+                            if (MangaPageUpscaler.upscalePage(javaFile, tempFile)) {
+                                if (tempFile.exists()) {
+                                    javaFile.delete()
+                                    tempFile.renameTo(javaFile)
+                                }
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    logcat(LogPriority.ERROR, e) { "Manga upscaling failed: ${e.message}" }
+                }
+            }
+            // -------------------------------------
+
             page.uri = file.uri
+
             page.progress = 100
             page.status = Page.State.Ready
         } catch (e: Throwable) {
