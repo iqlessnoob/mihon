@@ -240,9 +240,11 @@ class Downloader(
         }
     }
 
-    private fun CoroutineScope.launchDownloadJob(download: Download) = launchIO {
+        private fun CoroutineScope.launchDownloadJob(download: Download) = launchIO {
         try {
-            downloadChapter(download)
+            // Read the toggle state dynamically when a download starts
+            downloadChapter(download, downloadPreferences.upscaleMangaPages().get())
+
 
             // Remove successful download from queue
             if (download.status == Download.State.DOWNLOADED) {
