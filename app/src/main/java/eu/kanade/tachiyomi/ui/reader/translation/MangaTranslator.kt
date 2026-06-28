@@ -119,9 +119,12 @@ object MangaTranslator {
         } catch (e: Exception) {
             Result.failure(e)
         }
-    }
+   }
 }
-    fun clearTranslationOverlays() {
-        // TODO: Clear your translation state here 
-        // Example: translationState.value = emptyList() or isVisible.value = false
+        fun clearTranslationOverlays() {
+        // Leave this empty for now, or add your clearing logic
     }
+
+}
+
+
