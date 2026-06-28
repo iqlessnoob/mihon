@@ -16,6 +16,8 @@ class DownloadPreferences(
 
     val splitTallImages: Preference<Boolean> = preferenceStore.getBoolean("split_tall_images", true)
 
+    val upscaleMangaPages: Preference<Boolean> = preferenceStore.getBoolean("upscale_manga_pages", false)
+
     val autoDownloadWhileReading: Preference<Int> = preferenceStore.getInt("auto_download_while_reading", 0)
 
     val removeAfterReadSlots: Preference<Int> = preferenceStore.getInt("remove_after_read_slots", -1)
