@@ -14,6 +14,7 @@ import eu.kanade.tachiyomi.source.online.HttpSource
 import eu.kanade.tachiyomi.util.storage.DiskUtil
 import eu.kanade.tachiyomi.util.storage.DiskUtil.NOMEDIA_FILE
 import eu.kanade.tachiyomi.util.storage.saveTo
+import eu.kanade.tachiyomi.data.download.RealCuganUpscaler
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -463,7 +464,18 @@ class Downloader(
 
             // When the page is ready, set page path, progress (just in case) and status
             splitTallImageIfNeeded(page, tmpDir)
-
+             // AI Upscaling
+try {
+    val imageFile = tmpDir.listFiles()?.firstOrNull {
+        it.name!!.startsWith(filename)
+    }
+    if (imageFile != null) {
+        val javaFile = File(imageFile.uri.path!!)
+        RealCuganUpscaler.upscaleImageFile(context, javaFile)
+    }
+} catch (e: Exception) {
+    logcat(LogPriority.ERROR, e) { "Upscaling failed: ${e.message}" }
+}
             page.uri = file.uri
             page.progress = 100
             page.status = Page.State.Ready
