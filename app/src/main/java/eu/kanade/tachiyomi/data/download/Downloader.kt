@@ -1,4 +1,6 @@
+
 package eu.kanade.tachiyomi.data.download
+import eu.kanade.tachiyomi.data.download.upscale.MangaPageUpscaler
 
 import android.content.Context
 import com.hippo.unifile.UniFile
