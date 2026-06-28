@@ -201,6 +201,12 @@ object SettingsDownloadScreen : SearchableSettings {
                         },
                     title = stringResource(MR.strings.auto_download_while_reading),
                 ),
+                        Preference.PreferenceItem.SwitchPreference(
+            preference = downloadPreferences.upscaleMangaPages,
+            title = stringResource(MR.strings.pref_upscale_manga),
+            subtitle = stringResource(MR.strings.pref_upscale_manga_summary),
+        ),
+
                 Preference.PreferenceItem.InfoPreference(stringResource(MR.strings.download_ahead_info)),
             ),
         )
