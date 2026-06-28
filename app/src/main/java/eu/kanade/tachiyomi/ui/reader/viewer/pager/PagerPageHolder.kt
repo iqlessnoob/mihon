@@ -1,14 +1,9 @@
 package eu.kanade.tachiyomi.ui.reader.viewer.pager
-
-import eu.kanade.tachiyomi.ui.reader.translation.runMangaTranslation
-import eu.kanade.tachiyomi.ui.reader.translation.clearTranslationOverlays
-
+import eu.kanade.tachiyomi.ui.reader.translation.MangaTranslator
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.graphics.Bitmap
 import android.graphics.Canvas
-
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
@@ -80,14 +75,15 @@ class PagerPageHolder(
                 val bitmap = capturePageBitmap()
                 if (bitmap != null) {
                     // This triggers your translator feature
-                    runMangaTranslation(bitmap)
+                    MangaTranslator.runMangaTranslation(bitmap)
                 }
             }
 
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                // Clears translation overlays on a standard tap
-                clearTranslationOverlays()
+                // Clears translation overlays on a standard clearTranslationOverlays()
                 return true
+                MangaTranslator.clearTranslationOverlays()
+
             }
         }
     )
