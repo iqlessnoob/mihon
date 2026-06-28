@@ -42,9 +42,6 @@ object MangaPageUpscaler {
             // Create an empty destination bitmap at exactly double the size (2x upscaling)
             val bitmapOut = Bitmap.createBitmap(bitmapIn.width * 2, bitmapIn.height * 2, bitmapIn.config ?: Bitmap.Config.ARGB_8888)
 
-
-)
-            
             // Execute the native C++ process matching RealCugan.kt's signature
             val success = cugan.process(bitmapIn, bitmapOut)
             if (success) {
