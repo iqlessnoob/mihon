@@ -76,16 +76,17 @@ class PagerPageHolder(
               override fun onLongPress(e: MotionEvent) {
                 val bitmap = capturePageBitmap()
                 if (bitmap != null) {
-                    // Launches the suspend translation function inside a coroutine scope
                     scope.launch {
+                        // Pass the bitmap, and call the getter functions with (context)
                         MangaTranslator.translateMangaPage(
                             bitmap = bitmap,
-                            apiKey = TranslationSettings.apiKey,
-                            targetLanguage = TranslationSettings.targetLanguage
+                            apiKey = TranslationSettings.getApiKey(context),
+                            targetLanguage = TranslationSettings.getTargetLanguage(context)
                         )
                     }
                 }
             }
+
 
 
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
