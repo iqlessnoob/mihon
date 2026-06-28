@@ -42,6 +42,11 @@ android {
         buildConfigField("boolean", "UPDATER_ENABLED", "${Config.enableUpdater}")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            // Include supported ABIs for RealCUGAN's native NCNN library
+            abiFilters.addAll(setOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
+        }
     }
 
     if (System.getenv("MIHON_GITHUB_RELEASE").toBoolean()) {
@@ -241,6 +246,8 @@ dependencies {
     implementation(libs.bundles.kotlinx.coroutines)
 
     implementation(libs.sqldelight.async)
+
+    implementation("com.github.tumuyan:RealSR-NCNN-Android:1.0.0")
 
     // AndroidX libraries
     implementation(libs.androidx.annotation)
