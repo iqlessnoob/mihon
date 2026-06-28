@@ -1,6 +1,5 @@
 package eu.kanade.tachiyomi.ui.reader.viewer.pager
 import eu.kanade.tachiyomi.ui.reader.translation.MangaTranslator
-import eu.kanade.tachiyomi.ui.reader.translation.TranslationOverlay
 import eu.kanade.tachiyomi.ui.reader.translation.TranslationSettings
 import android.view.GestureDetector
 import android.view.MotionEvent
