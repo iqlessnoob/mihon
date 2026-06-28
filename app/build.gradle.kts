@@ -325,6 +325,8 @@ dependencies {
     implementation(libs.leakCanary.plumber)
 
     testImplementation(libs.kotlinx.coroutines.test)
+    // RealSR NCNN Upscaler
+    implementation("com.github.tumuyan:RealSR-NCNN-Android:v1.0.0")
 }
 
 androidComponents {
