@@ -32,7 +32,8 @@ object RealCuganUpscaler {
 
             // Load RealCUGAN 2x model (parameters: gpuid, model_dir, model_name)
             // Model names: "realcugan-se", "realcugan-pro"
-            realsr.init(0, modelDir.absolutePath, "realcugan-se")
+            realsr.init(0, 2, 0, modelDir.absolutePath)
+
 
             isInitialized = true
         } catch (e: Exception) {
