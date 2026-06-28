@@ -243,7 +243,8 @@ class Downloader(
         private fun CoroutineScope.launchDownloadJob(download: Download) = launchIO {
         try {
             // Read the toggle state dynamically when a download starts
-            downloadChapter(download, upscaleMangaPages.get())
+            downloadChapter(download, preferences.upscaleMangaPages().get())
+
 
 
 
