@@ -120,7 +120,7 @@ object MangaTranslator {
             Result.failure(e)
         }
    }
-}
+
         fun clearTranslationOverlays() {
         // Leave this empty for now, or add your clearing logic
     }
