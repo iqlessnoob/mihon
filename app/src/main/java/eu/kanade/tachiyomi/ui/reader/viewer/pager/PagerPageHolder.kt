@@ -1,5 +1,7 @@
 package eu.kanade.tachiyomi.ui.reader.viewer.pager
 import eu.kanade.tachiyomi.ui.reader.translation.MangaTranslator
+import eu.kanade.tachiyomi.ui.reader.translation.TranslationOverlay
+import eu.kanade.tachiyomi.ui.reader.translation.MangaTranslator
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.graphics.Bitmap
@@ -68,25 +70,27 @@ class PagerPageHolder(
     /**
      * Detects long-press and tap gestures before child views swallow them.
      */
-    private val translationGestureDetector = GestureDetector(
+        private val translationGestureDetector = GestureDetector(
         readerThemedContext,
         object : GestureDetector.SimpleOnGestureListener() {
             override fun onLongPress(e: MotionEvent) {
                 val bitmap = capturePageBitmap()
                 if (bitmap != null) {
-                    // This triggers your translator feature
-                    MangaTranslator.runMangaTranslation(bitmap)
+                    // Launches the suspend translation function inside a coroutine scope
+                    scope.launch {
+                        MangaTranslator.translateMangaPage(bitmap)
+                    }
                 }
             }
 
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                // Clears translation overlays on a standard clearTranslationOverlays()
+                // Calls the clear function from the correct TranslationOverlay file
+                TranslationOverlay.clearTranslationOverlays()
                 return true
-                MangaTranslator.clearTranslationOverlays()
-
             }
         }
     )
+
 
     /**
      * Intercepts touch inputs safely without breaking reader zoom/panning utilities.
