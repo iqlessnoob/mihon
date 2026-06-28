@@ -107,7 +107,7 @@ class PagerPageHolder(
             this.draw(canvas)
             bitmap
         } catch (e: Exception) {
-            logcat(LogPriority.ERROR) { "Failed to capture page canvas: ${e.formattedMessage(context)}" }
+            logcat(LogPriority.ERROR) { "Failed to capture page canvas: ${e.localizedMessage}" }
             null
         }
     }
