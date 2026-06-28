@@ -213,4 +213,8 @@
     <string name="action_set_interval">मध्यांतर</string>
     <string name="action_filter_tracked">ट्रॅक केले</string>
     <string name="action_filter_interval_custom">कस्टमाईज्ड फेच इंटरवल</string>
+    <string name="pref_upscale_manga">Download with AI Upscaling</string>
+    <string name="pref_upscale_manga_summary">Automatically double the resolution of downloaded manga pages using native RealCUGAN super-resolution</string>
+
+    
 </resources>
