@@ -32,7 +32,8 @@ object RealCuganUpscaler {
 
             // Load RealCUGAN 2x model (parameters: gpuid, model_dir, model_name)
             // Model names: "realcugan-se", "realcugan-pro"
-            RealCugan.init(0, modelDir.absolutePath, "realcugan-se")
+            realsr.init(0, modelDir.absolutePath, "realcugan-se")
+
             isInitialized = true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -57,7 +58,8 @@ object RealCuganUpscaler {
             )
 
             // Run the super-resolution model 2x scale
-            val success = RealCugan.process(bitmap, upscaledBitmap)
+            val success = realsr.process(bitmap, upscaledBitmap)
+
             if (success) {
                 FileOutputStream(file).use { out ->
                     upscaledBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
