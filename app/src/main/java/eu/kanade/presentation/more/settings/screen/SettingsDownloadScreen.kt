@@ -204,7 +204,7 @@ object SettingsDownloadScreen : SearchableSettings {
                         Preference.PreferenceItem.SwitchPreference(
             preference = downloadPreferences.upscaleMangaPages,
             title = "Upscale Manga Pages",
-            summary = "Automatically upscale downloaded manga pages using RealCugan"
+            subtitle = "Automatically upscale downloaded manga pages using RealCugan"
 
 
         ),
