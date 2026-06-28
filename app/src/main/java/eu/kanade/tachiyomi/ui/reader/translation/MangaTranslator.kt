@@ -121,3 +121,7 @@ object MangaTranslator {
         }
     }
 }
+    fun clearTranslationOverlays() {
+        // TODO: Clear your translation state here 
+        // Example: translationState.value = emptyList() or isVisible.value = false
+    }
