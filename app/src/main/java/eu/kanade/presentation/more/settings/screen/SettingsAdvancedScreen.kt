@@ -81,6 +81,11 @@ object SettingsAdvancedScreen : SearchableSettings {
     override fun getPreferences(): List<Preference> {
         val scope = rememberCoroutineScope()
         val context = LocalContext.current
+        val preferenceStore = remember { Injekt.get<PreferenceStore>() }
+        val geminiApiKey = remember { preferenceStore.getString("gemini_api_key", "") }
+        val targetLanguage = remember { preferenceStore.getString("translation_target_lang", "English") }
+        val cuganModel = remember { preferenceStore.getString("cugan_model_name", "realcugan-se") }
+ 
         val navigator = LocalNavigator.currentOrThrow
 
         val basePreferences = remember { Injekt.get<BasePreferences>() }
@@ -450,7 +455,30 @@ object SettingsAdvancedScreen : SearchableSettings {
                         context.toast(MR.strings.requires_app_restart)
                     },
                 ),
+                
+        Preference.PreferenceGroup(
+            title = "AI Features",
+            preferenceItems = listOf(
+                Preference.PreferenceItem.EditTextPreference(
+                    preference = geminiApiKey,
+                    title = "Gemini API Key",
+                    subtitle = "Required for the Manga Translator feature",
+                ),
+                Preference.PreferenceItem.EditTextPreference(
+                    preference = targetLanguage,
+                    title = "Translation Language",
+                    subtitle = "Target translation language (e.g., English)",
+                ),
+                Preference.PreferenceItem.ListPreference(
+                    preference = cuganModel,
+                    title = "RealCUGAN Model",
+                    subtitle = "Choose upscaler performance level",
+                    entries = mapOf(
+                        "realcugan-se" to "Super Efficiency (Fast)", 
+                        "realcugan-pro" to "Professional (High Quality)"
+                    ),
+                ),
             ),
-        )
-    }
+        ),
+    )
 }
