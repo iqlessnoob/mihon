@@ -85,11 +85,10 @@ class SuwayomiApi(private val trackId: Long) {
     suspend fun updateProgress(track: Track, deleteDownloadsOnServer: Boolean = false): Track {
         val mangaId = track.remote_id
 
-        // TODO: Include a filter on the chapter number here
         // Below, we only consider older chapters; since v2.1.1985 filtering works properly in the query
         val chaptersQuery = $$"""
-        |query GetMangaUnreadChapters($mangaId: Int!) {
-        |  chapters(condition: {mangaId: $mangaId, isRead: false}) {
+        |query GetMangaUnreadChapters($mangaId: Int!, $chapterNumber: Float!) {
+        |  chapters(condition: {mangaId: $mangaId, isRead: false}, filter: {chapterNumber: {lessThanOrEqualTo: $chapterNumber}}) {
         |    nodes {
         |      id
         |      chapterNumber
@@ -101,6 +100,7 @@ class SuwayomiApi(private val trackId: Long) {
             put("query", chaptersQuery)
             putJsonObject("variables") {
                 put("mangaId", mangaId)
+                put("chapterNumber", track.last_chapter_read + 0.001)
             }
         }
         val chaptersToMark = with(json) {
