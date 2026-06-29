@@ -1,5 +1,8 @@
 package eu.kanade.presentation.more.settings.screen
 
+import uy.kohesive.injekt.Injekt
+import uy.kohesive.injekt.api.get
+import eu.kanade.tachiyomi.core.preference.PreferenceStore
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
