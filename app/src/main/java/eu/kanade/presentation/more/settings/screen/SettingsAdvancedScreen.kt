@@ -509,7 +509,6 @@ object SettingsAdvancedScreen : SearchableSettings {
                     entries = mapOf(
                         "realcugan-se" to "Super Efficiency (Fast)", 
                         "realcugan-pro" to "Professional (High Quality)"
-                    ),
                 ),
             ),
         ),
