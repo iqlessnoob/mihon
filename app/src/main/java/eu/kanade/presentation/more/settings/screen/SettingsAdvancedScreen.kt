@@ -1,4 +1,8 @@
 package eu.kanade.presentation.more.settings.screen
+import eu.kanade.tachiyomi.core.preference.Preference
+import eu.kanade.tachiyomi.core.preference.PreferenceStore
+import eu.kanade.tachiyomi.core.preference.get // or whatever preference helper library Mihon uses
+
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import android.annotation.SuppressLint
