@@ -1,7 +1,6 @@
 package eu.kanade.presentation.more.settings.screen
-import eu.kanade.tachiyomi.core.preference.Preference
-import eu.kanade.tachiyomi.core.preference.PreferenceStore
-import eu.kanade.tachiyomi.core.preference.get // or whatever preference helper library Mihon uses
+import tachiyomi.core.common.preference.PreferenceStore
+import eu.kanade.presentation.more.settings.Preference
 
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -23,7 +22,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import uy.kohesive.injekt.Injekt
 import uy.kohesive.injekt.api.get
-import eu.kanade.tachiyomi.core.preference.PreferenceStore
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -34,7 +32,6 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import eu.kanade.domain.base.BasePreferences
 import eu.kanade.domain.extension.interactor.TrustExtension
-import eu.kanade.presentation.more.settings.Preference
 import eu.kanade.presentation.more.settings.screen.advanced.ClearDatabaseScreen
 import eu.kanade.presentation.more.settings.screen.debug.DebugInfoScreen
 import eu.kanade.tachiyomi.data.download.DownloadCache
@@ -90,9 +87,9 @@ object SettingsAdvancedScreen : SearchableSettings {
         val navigator = LocalNavigator.currentOrThrow
 
         val preferenceStore = remember { Injekt.get<PreferenceStore>() }
-        val geminiApiKey = remember { preferenceStore.getString("gemini_api_key", "") }
-        val targetLanguage = remember { preferenceStore.getString("translation_target_lang", "English") }
-        val cuganModel = remember { preferenceStore.getString("cugan_model_name", "realcugan-se") }
+        val geminiApiKey: tachiyomi.core.common.preference.Preference<String> = remember { preferenceStore.getString("gemini_api_key", "") }
+        val targetLanguage: tachiyomi.core.common.preference.Preference<String> = remember { preferenceStore.getString("translation_target_lang", "English") }
+        val cuganModel: tachiyomi.core.common.preference.Preference<String> = remember { preferenceStore.getString("cugan_model_name", "realcugan-se") }
 
 
         val basePreferences = remember { Injekt.get<BasePreferences>() }
@@ -141,36 +138,35 @@ object SettingsAdvancedScreen : SearchableSettings {
             getLibraryGroup(libraryPreferences = libraryPreferences),
             getReaderGroup(basePreferences = basePreferences),
             getExtensionsGroup(basePreferences = basePreferences),
-                    Preference.PreferenceGroup(
-            title = "AI Features",
-            preferenceItems = listOf(
-                Preference.PreferenceItem.EditTextPreference(
-                    preference = geminiApiKey,
-                    title = "Gemini API Key",
-                    subtitle = "Required for the Manga Translator feature",
-                ),
-                Preference.PreferenceItem.EditTextPreference(
-                    preference = targetLanguage,
-                    title = "Translation Language",
-                    subtitle = "Target translation language (e.g., English)",
-                ),
-                Preference.PreferenceItem.ListPreference(
-                    preference = cuganModel,
-                    title = "RealCUGAN Model",
-                    subtitle = "Choose upscaler performance level",
-                    entries = mapOf(
-                        "realcugan-se" to "Super Efficiency (Fast)", 
-                        "realcugan-pro" to "Professional (High Quality)"
+            Preference.PreferenceGroup(
+                title = "AI Features",
+                preferenceItems = listOf(
+                    Preference.PreferenceItem.EditTextPreference(
+                        preference = geminiApiKey,
+                        title = "Gemini API Key",
+                        subtitle = "Required for the Manga Translator feature",
+                    ),
+                    Preference.PreferenceItem.EditTextPreference(
+                        preference = targetLanguage,
+                        title = "Translation Language",
+                        subtitle = "Target translation language (e.g., English)",
+                    ),
+                    Preference.PreferenceItem.ListPreference(
+                        preference = cuganModel,
+                        title = "RealCUGAN Model",
+                        subtitle = "Choose upscaler performance level",
+                        entries = mapOf(
+                            "realcugan-se" to "Super Efficiency (Fast)",
+                            "realcugan-pro" to "Professional (High Quality)"
+                        ),
+                    ),
+                    Preference.PreferenceItem.TextPreference(
+                        title = "Manual AI Upscaling",
+                        subtitle = "Open menu to upscale downloaded manga",
+                        onClick = { navigator.push(ManualUpscaleScreen()) }
                     ),
                 ),
-                Preference.PreferenceItem.TextPreference(
-                    title = "Manual AI Upscaling",
-                    subtitle = "Open menu to upscale downloaded manga",
-                    onClick = { navigator.push(ManualUpscaleScreen()) }
-                ),
             ),
-        ),
-
         )
     }
 
@@ -492,29 +488,7 @@ object SettingsAdvancedScreen : SearchableSettings {
                         context.toast(MR.strings.requires_app_restart)
                     },
                 ),
-                
-        Preference.PreferenceGroup(
-            title = "AI Features",
-            preferenceItems = listOf(
-                Preference.PreferenceItem.EditTextPreference(
-                    preference = geminiApiKey,
-                    title = "Gemini API Key",
-                    subtitle = "Required for the Manga Translator feature",
-                ),
-                Preference.PreferenceItem.EditTextPreference(
-                    preference = targetLanguage,
-                    title = "Translation Language",
-                    subtitle = "Target translation language (e.g., English)",
-                ),
-                Preference.PreferenceItem.ListPreference(
-                    preference = cuganModel,
-                    title = "RealCUGAN Model",
-                    subtitle = "Choose upscaler performance level",
-                    entries = mapOf(
-                        "realcugan-se" to "Super Efficiency (Fast)", 
-                        "realcugan-pro" to "Professional (High Quality)"
-                ),
             ),
-        ),
-    )
+        )
+    }
 }
