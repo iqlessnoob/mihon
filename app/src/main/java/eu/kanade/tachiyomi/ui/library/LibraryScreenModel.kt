@@ -575,8 +575,12 @@ class LibraryScreenModel(
      */
     fun setMangaCategories(mangaList: List<Manga>, addCategories: List<Long>, removeCategories: List<Long>) {
         screenModelScope.launchNonCancellable {
+            if (mangaList.isEmpty()) return@launchNonCancellable
+            val mangaIds = mangaList.map { it.id }
+            val categoriesByMangaId = getCategories.await(mangaIds)
+
             mangaList.forEach { manga ->
-                val categoryIds = getCategories.await(manga.id)
+                val categoryIds = categoriesByMangaId[manga.id].orEmpty()
                     .map { it.id }
                     .subtract(removeCategories.toSet())
                     .plus(addCategories)
