@@ -35,7 +35,7 @@ import uy.kohesive.injekt.api.get
  */
 class DownloadManager(
     private val context: Context,
-    private val provider: DownloadProvider = Injekt.get(),
+    internal val provider: DownloadProvider = Injekt.get(),
     private val cache: DownloadCache = Injekt.get(),
     private val getCategories: GetCategories = Injekt.get(),
     private val sourceManager: SourceManager = Injekt.get(),
