@@ -1,8 +1,4 @@
 package eu.kanade.presentation.more.settings.screen
-
-import uy.kohesive.injekt.Injekt
-import uy.kohesive.injekt.api.get
-import eu.kanade.tachiyomi.core.preference.PreferenceStore
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -19,6 +15,9 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import uy.kohesive.injekt.Injekt
+import uy.kohesive.injekt.api.get
+import eu.kanade.tachiyomi.core.preference.PreferenceStore
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
