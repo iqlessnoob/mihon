@@ -37,6 +37,15 @@ class CategoryRepositoryImpl(
             .awaitAsList()
     }
 
+    override suspend fun getCategoriesByMangaIds(mangaIds: List<Long>): Map<Long, List<Category>> {
+        return database.categoriesQueries
+            .getCategoriesByMangaIds(mangaIds) { mangaId, id, name, order, flags ->
+                mangaId to mapCategory(id, name, order, flags)
+            }
+            .awaitAsList()
+            .groupBy({ it.first }, { it.second })
+    }
+
     override fun getCategoriesByMangaIdAsFlow(mangaId: Long): Flow<List<Category>> {
         return database.categoriesQueries
             .getCategoriesByMangaId(mangaId, ::mapCategory)
