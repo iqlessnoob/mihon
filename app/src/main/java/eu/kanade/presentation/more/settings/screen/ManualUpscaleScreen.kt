@@ -54,15 +54,25 @@ class ManualUpscaleScreen : Screen {
                             modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(directory.name, modifier = Modifier.weight(1f))
+                            Text(directory.name ?: "", modifier = Modifier.weight(1f))
                             
                             Button(
                                 enabled = processingMangaName == null,
                                 onClick = {
                                     scope.launch {
                                         processingMangaName = directory.name
-                                        directory.walkTopDown().filter { it.extension in listOf("jpg", "jpeg", "png") }.forEach { imgFile ->
-                                            RealCuganUpscaler.upscaleImageFile(context, imgFile)
+                                        // UniFile doesn't have walkTopDown, so we need to iterate its listFiles
+                                        directory.listFiles()?.filter {
+                                            it.isFile && it.name?.lowercase()?.let { name ->
+                                                name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".png")
+                                            } == true
+                                        }?.forEach { imgFile ->
+                                            // RealCuganUpscaler takes java.io.File
+                                            // Get java.io.File from UniFile path if possible, or skip if not file-based
+                                            val file = imgFile.uri.path?.let { java.io.File(it) }
+                                            if (file != null && file.exists()) {
+                                                RealCuganUpscaler.upscaleImageFile(context, file)
+                                            }
                                         }
                                         processingMangaName = null
                                     }
