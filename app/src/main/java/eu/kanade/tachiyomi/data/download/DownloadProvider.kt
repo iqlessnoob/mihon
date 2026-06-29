@@ -30,7 +30,7 @@ class DownloadProvider(
     private val libraryPreferences: LibraryPreferences = Injekt.get(),
 ) {
 
-    private val downloadsDir: UniFile?
+    internal val downloadsDir: UniFile?
         get() = storageManager.getDownloadsDirectory()
 
     /**
